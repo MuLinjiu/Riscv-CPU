@@ -31,19 +31,52 @@
 //opcode 
 `define opcode_range        6:0
 `define opcodewidth         7
-
-
-
-
-`define OP_LUI              7'b0110111
-`define OP_AUIPC            7'b0010111
-`define OP_JAL              7'b1101111
-`define OP_JALR             7'b1100111
-`define OP_BRANCH           7'b1100011
-`define OP_LOAD             7'b0000011
-`define OP_STORE            7'b0100011
-`define OP_OP_IMM           7'b0010011
-`define OP_OP               7'b0110011
-`define OP_MISC_MEM         7'b0001111
+`define opLUI               7'b0110111
+`define opAUIPC             7'b0010111
+`define opJAL               7'b1101111
+`define opJALR              7'b1100111
+`define opBranch            7'b1100011
+`define opLoad              7'b0000011
+`define opStore             7'b0100011
+`define opI                 7'b0010011
+`define opR                 7'b0110011
 `define OP_NON              7'b0000000
 
+
+`define LUI                 6'b000001
+`define AUIPC               6'b000010
+`define JAL                 6'b000011
+`define JALR                6'b000100
+`define BEQ                 6'b000101
+`define BNE                 6'b000110
+`define BLT                 6'b000111
+`define BGE                 6'b001000
+`define BLTU                6'b001001
+`define BGEU                6'b001010
+`define LB                  6'b001011
+`define LH                  6'b001100
+`define LW                  6'b001101
+`define LBU                 6'b001110
+`define LHU                 6'b001111
+`define SB                  6'b010000
+`define SH                  6'b010001
+`define SW                  6'b010010
+`define ADDI                6'b010011
+`define SLTI                6'b010100
+`define SLTIU               6'b010101
+`define XORI                6'b010110
+`define ORI                 6'b010111
+`define ANDI                6'b011000
+`define SLLI                6'b011001
+`define SRLI                6'b011010
+`define SRAI                6'b011011
+`define ADD                 6'b011100
+`define SUB                 6'b011101
+`define SLL                 6'b011110
+`define SLT                 6'b011111
+`define SLTU                6'b100000
+`define XOR                 6'b100001
+`define SRL                 6'b100010
+`define SRA                 6'b100011
+`define OR                  6'b100100
+`define AND                 6'b100101
