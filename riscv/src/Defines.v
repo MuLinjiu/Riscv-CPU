@@ -42,7 +42,7 @@
 `define opR                 7'b0110011
 `define OP_NON              7'b0000000
 
-
+`define STALL               6'b000000
 `define LUI                 6'b000001
 `define AUIPC               6'b000010
 `define JAL                 6'b000011
