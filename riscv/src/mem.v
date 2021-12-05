@@ -7,6 +7,7 @@ module MEM (
     input wire[`InstAddrBus] mem_address_in,
     input wire[`regbus] target_data_in,
     input wire[`regaddrbus] reg_address_in,
+    
     //from mc
     input wire mc_mem_busy_in,
     input wire mc_inst_busy_in,

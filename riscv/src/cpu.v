@@ -1,6 +1,6 @@
 // RISCV32I CPU top module
 // port modification allowed for debugging purposes
-
+`include "Defines.v"
 module cpu(
   input  wire                 clk_in,			// system clock signal
   input  wire                 rst_in,			// reset signal
@@ -28,20 +28,55 @@ module cpu(
 // - 0x30004 read: read clocks passed since cpu starts (in dword, 4 bytes)
 // - 0x30004 write: indicates program stop (will output '\0' through uart tx)
 
-always @(posedge clk_in)
-  begin
-    if (rst_in)
-      begin
+// always @(posedge clk_in)
+//   begin
+//     if (rst_in)
+//       begin
       
-      end
-    else if (!rdy_in)
-      begin
+//       end
+//     else if (!rdy_in)
+//       begin
       
-      end
-    else
-      begin
+//       end
+//     else
+//       begin
       
-      end
-  end
+//       end
+//   end
+
+//stall control
+wire rst = rst_in || !rdy_in;
+wire stall_if;
+wire stall_id;
+wire stall_mem;
+
+wire[`stallbus] stall_status;
+
+wire[`InstAddrBus] pc;
+wire[`InstAddrBus] pc_jump;
+
+//pc_reg to if
+wire pc_enable;
+
+//mem_ctrl to icache
+wire mc_inst_enable;
+wire[`regbus] mc_inst_data;
+
+//icache to mem_ctrl
+wire icache_inst_read_out;
+wire[`InstAddrBus] icache_inst_address_out;
+
+//icache to if
+wire icache_inst_enable_out;
+wire[`regbus] icache_inst_data_out;
+
+//if to icache
+wire mc_inst_enable_out;
+wire[`InstAddrBus] mc_inst_address_out;
+
+//if to if_id
+
+
+
 
 endmodule

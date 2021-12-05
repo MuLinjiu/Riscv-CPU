@@ -19,6 +19,12 @@
 `define Func7Bus            6:0
 
 
+//icache
+`define icachenum           128
+`define icachebus           6:0
+`define icachetagbus        9:0
+`define tagbytes            16:7
+
 //register
 `define regbus              31:0
 `define regaddrbus          4:0
