@@ -7,14 +7,14 @@ module EX_MEM (
     input wire[`stallbus] stall_in,
 
     input wire[5:0] op_in,
-    input wire status_in,
+    input wire[2:0] status_in,//001 操作寄存器 010 内存写 011读内存 000初始化 100跳转 101jal|jalr
     input wire[`InstAddrBus] mem_address_in,
     input wire[`regbus] target_data_in,
     input wire[`regaddrbus] reg_address_in,
 
 
     output reg[5:0] op_out,
-    output reg status_out,
+    output reg[2:0] status_out,
     output reg[`InstAddrBus] mem_address_out,
     output reg[`regbus] target_data_out,
     output reg[`regaddrbus] reg_address_out

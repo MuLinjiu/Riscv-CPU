@@ -14,7 +14,6 @@ module ID_EX (
 
     input wire[5:0] op_in,
     input wire[`InstAddrBus] pc_in,
-
     input wire[`stallbus] stall_in,
     //to EX
     output reg[5:0] op_out,
