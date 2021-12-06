@@ -1,19 +1,19 @@
 // RISCV32I CPU top module
 // port modification allowed for debugging purposes
 `include "Defines.v"
-`include "stall_control.v"
-`include "pc_reg.v"
-`include "icache.v"
-`include "register.v"
-`include "if.v"
-`include "if_id.v"
-`include "id.v"
-`include "id_ex.v"
-`include "ex.v"
-`include "ex_mem.v"
-`include "mem.v"
-`include "mem_wb.v"
-`include "memory_control.v"
+// `include "stall_control.v"
+// `include "pc_reg.v"
+// `include "icache.v"
+// `include "register.v"
+// `include "if.v"
+// `include "if_id.v"
+// `include "id.v"
+// `include "id_ex.v"
+// `include "ex.v"
+// `include "ex_mem.v"
+// `include "mem.v"
+// `include "mem_wb.v"
+// `include "memory_control.v"
 module cpu(
   input  wire                 clk_in,			// system clock signal
   input  wire                 rst_in,			// reset signal
@@ -343,6 +343,7 @@ EX ex0(
   .branch_offset_in(ex_branch_offset_in),
 
   .Load_or_not(load_or_not),
+  .op_in(ex_op),
   .op_out(ex_mem_op),
   .status_out(ex_mem_status),
   .ex_forward_or_not(ex_forward_or_not),
@@ -350,7 +351,7 @@ EX ex0(
   .target_data_out(ex_mem_target_data_in),
   .reg_address_out(ex_mem_reg_address),
 
-  .jump_or_not(if_jump),
+  .jump_or_not(ex_jump),
   .pc_jump_out(pc_jump)
 
 

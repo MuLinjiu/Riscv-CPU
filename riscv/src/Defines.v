@@ -2,7 +2,7 @@
 
 `define rst_enable          1'b1
 `define rst_disable         1'b0
-`define zeroword            32'h00000000
+`define zeroword            32'b0
 `define write_enable        1'b1
 `define write_disable       1'b0
 `define read_enable         1'b1

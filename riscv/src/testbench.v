@@ -20,9 +20,14 @@ initial begin
   rst=1;
   repeat(50) #1 clk=!clk;
   rst=0; 
-  repeat(2000) #1 clk=!clk;
+  forever #1 clk=!clk;
 
   $finish;
+end
+
+initial begin
+  $dumpfile("test.vcd");
+  $dumpvars;
 end
 
 endmodule

@@ -27,19 +27,19 @@ always @(*) begin
 
     //处理to icache部分以及pc
     if(rst || !pc_enable_in)begin
-        pc_out <= `zeroword;
-        mc_inst_add_out <= `zeroword;
-        mc_inst_enable_out <= 1'b0;
+        pc_out = `zeroword;
+        mc_inst_add_out = `zeroword;
+        mc_inst_enable_out = 1'b0;
     end else begin
-        pc_out <= pc_in;
-        mc_inst_add_out <= pc_in;
-        mc_inst_enable_out <= 1'b1;
+        pc_out = pc_in;
+        mc_inst_add_out = pc_in;
+        mc_inst_enable_out = 1'b1;
     end
 //inst_out
     if(mc_inst_enable_in && !rst)begin
-        inst_out <= mc_inst_value_in;
+        inst_out = mc_inst_value_in;
     end else begin
-        inst_out <= `zeroword;
+        inst_out = `zeroword;
     end
 end
 

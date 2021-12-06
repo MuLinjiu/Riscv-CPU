@@ -1,4 +1,5 @@
 `include "Defines.v"
+`timescale 1ns/1ps
 
 module ID_EX (
     input wire clk,
@@ -36,6 +37,7 @@ module ID_EX (
             branch_address_out <= `zeroword;
             branch_offset_out <= `zeroword;
         end else if(!stall_in[2])begin
+            //$display($time, " [ID_EX] imm : %h",imm_in," ;pc : %h",pc_in);
             op_out <= op_in;
             pc_out <= pc_in;
             rs1_value_out <= rs1_value_in;

@@ -24,49 +24,52 @@ reg[31:0] icache_data[`icachenum - 1 : 0];
 reg[`icachetagbus] icache_tag[`icachenum - 1 : 0];
 reg[`icachenum - 1 : 0] icache_valid;
 
-
+assign inst_address_out = inst_address_in;
 //innitial
 
 integer i;
 
 initial begin
     for(i = 0 ; i < `icachenum ; i = i + 1)begin
-        icache_valid <= 0;
-    end
+        icache_valid[i] <= 0;
+        end
 end
 
 always @(*) begin
     if(rst_in == `rst_enable || !inst_read_in)begin
-        inst_enable_out <= 1'b0;
-        inst_read_out <= 1'b0;
-        inst_data_out <= `zeroword;
+        inst_enable_out = 1'b0;
+        inst_read_out = 1'b0;
+        inst_data_out = `zeroword;
     end else if(icache_tag[inst_address_in[`icachebus]] == inst_address_in[`tagbytes] && icache_valid[inst_address_in[`icachebus]])begin
-        inst_enable_out <= 1'b1;
-        inst_read_out <= 1'b0;
-        inst_data_out <= icache_data[inst_address_in[`icachebus]];
+        inst_enable_out = 1'b1;
+        inst_read_out = 1'b0;
+        inst_data_out = icache_data[inst_address_in[`icachebus]];
     end else if(inst_enable_in == 1'b1)begin
-        inst_enable_out <= 1'b1;
-        inst_read_out <= 1'b0;
-        inst_data_out <= inst_data_in;
+        inst_enable_out = 1'b1;
+        inst_read_out = 1'b0;
+        inst_data_out = inst_data_in;
     end else if(!inst_busy_in)begin
-        inst_enable_out <= 1'b0;
-        inst_read_out <= 1'b1;
-        inst_data_out <= `zeroword;
+        inst_enable_out = 1'b0;
+        inst_read_out = 1'b1;
+        inst_data_out = `zeroword;
     end else begin
-        inst_enable_out <= 1'b0;
-        inst_read_out <= 1'b0;
-        inst_data_out <= `zeroword;
+        inst_enable_out = 1'b0;
+        inst_read_out = 1'b0;
+        inst_data_out = `zeroword;
     end
 end
 
 
 always @(posedge clk_in) begin
     if(rst_in == `rst_enable)begin
+        // for(i = 0 ; i < `icachenum ; i = i + 1)begin
+        // icache_valid <= 0;
+        // end
         icache_valid <= 0;
     end else if(inst_enable_in == 1'b1)begin 
         icache_valid[inst_address_in[`icachebus]] <= 1'b1;
-        icache_data[inst_address_in[`icachebus]] <= inst_address_in[`tagbytes];
-        icache_tag[inst_address_in[`icachebus]] <= inst_data_in;
+        icache_tag[inst_address_in[`icachebus]] <= inst_address_in[`tagbytes];
+        icache_data[inst_address_in[`icachebus]] <= inst_data_in;
     end
 end
 

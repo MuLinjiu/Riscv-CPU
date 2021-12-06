@@ -80,7 +80,7 @@ always @(posedge clk_in) begin
             mem_busy_out <= !mem_enable_in;
             inst_busy_out <= mem_enable_in;
         end else if(status < number)begin
-            ldata[status] <= ram_data_in;
+            ldata[status - 1] <= ram_data_in;
             status <= status + 1;
         end else begin
             status <= 0;
@@ -96,17 +96,18 @@ always @(posedge clk_in) begin
                 inst_data_out <= {ram_data_in,ldata[2],ldata[1],ldata[0]};
             end
         end
-    end else if(number &&ram_wr)begin
+    end else if(number && ram_wr)begin
         if(status == 0)begin
             inst_busy_out <= 1'b1;
             inst_enable_out <= 1'b0;
             mem_busy_out <= 1'b0;
             mem_enable_out <= 1'b0;
-        end else if(status > 0 && status < number - 1)begin
-            status = status + 1;
-        end else begin
+        end 
+        if(status == number - 1)begin//没有else 是因为number = 1，status = 0
             mem_enable_out <= 1'b1;
             status <= 0;
+        end else begin
+            status <= status + 1;
         end
     end else begin
         mem_busy_out <= 1'b0;
