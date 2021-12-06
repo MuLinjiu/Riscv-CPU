@@ -254,14 +254,19 @@ module ID (
 
 
     //rs1 rs2获取，register或前传；
+reg id_stall_out1;
+reg id_stall_out2;
 
+always @(*) begin
+    id_stall_out = id_stall_out1 || id_stall_out;
+end
     always @(*) begin
-        id_stall_out = 1'b0;
+        id_stall_out1 = 1'b0;
         if(rst == `rst_enable)begin
             rs1_value_out = `zeroword;
         end else if(Load_or_not == 1'b1 && ex_forward_or_not == 1'b1 && rs1_addr_out == ex_forward_address)begin
             rs1_value_out = `zeroword;
-            id_stall_out = 1'b1;//structure hazard
+            id_stall_out1 = 1'b1;//structure hazard
         end else if(rs1_read_out == 1'b1 && ex_forward_or_not == 1'b1 && rs1_addr_out == ex_forward_address)begin
             rs1_value_out = ex_forward_value;
         end else if(rs1_read_out == 1'b1 && MEM_forward_or_not == 1'b1 && rs1_addr_out == MEM_forward_address)begin
@@ -273,12 +278,12 @@ module ID (
         end
     end
 always @(*) begin
-        id_stall_out = 1'b0;
+        id_stall_out2 = 1'b0;
         if(rst == `rst_enable)begin
             rs2_value_out = `zeroword;
         end else if(Load_or_not == 1'b1 && ex_forward_or_not == 1'b1 && rs2_addr_out == ex_forward_address)begin
             rs2_value_out = `zeroword;
-            id_stall_out = 1'b1;//structure hazard
+            id_stall_out2 = 1'b1;//structure hazard
         end else if(rs2_read_out == 1'b1 && ex_forward_or_not == 1'b1 && rs2_addr_out == ex_forward_address)begin
             rs2_value_out = ex_forward_value;
         end else if(rs2_read_out == 1'b1 && MEM_forward_or_not == 1'b1 && rs2_addr_out == MEM_forward_address)begin
