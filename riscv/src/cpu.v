@@ -418,6 +418,7 @@ MEM_WB mem_wb0(
 );
 
 memory_control memory_control0(
+  .hci_if_full(io_buffer_full),
   .clk_in(clk_in),
   .rst_in(rst),
   .jump_or_not_in(if_jump),

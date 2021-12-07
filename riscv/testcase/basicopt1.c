@@ -9,20 +9,30 @@ int main()
     for (i = 0;i < 100;i++)
         for (j = 0;j < 100;j++)
             a[i][j] = 0;
+
+
+    outlln(1);
     int quotient;
     int remainder;
-    for (i = 0;i < 100;i++)
+    for (i = 0;i < 100;i++){
     	if (i > 20 && i < 80) {
         	for (j = 0;j < 100;j++)
+                //outlln(j);
             	if (j > 5 || i < 90) {
                     quotient = j * 4 / 100;
                     remainder = j * 4 % 100;
                 	a[i + quotient][remainder] = j + (100 - 1 + 1 - 1 + 1) / 2;
+                    //outlln(a[i + quotient][remainder]);
                 }
     	}
-
-    for (i = 0;i < 100;i++)
+        outlln(i);
+    }
+        outlln(2);
+    for (i = 0;i < 100;i++){
         for (j = 0;j < 100;j++)
-            sum = sum + a[i][j];
+            {
+                sum = sum + a[i][j];
+            }
+    }
     outlln(sum);
 }

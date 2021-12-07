@@ -58,30 +58,35 @@ module EX (
                     Load_or_not = 1'b1;
                     mem_address_out = rs1_value_in + imm_in;
                     reg_address_out = rd_address_in;
+                    ex_forward_or_not = 1'b1;
                 end
                 `LH:begin
                     status_out = 3'b011;
                     Load_or_not = 1'b1;
                     mem_address_out = rs1_value_in + imm_in;
                     reg_address_out = rd_address_in;
+                    ex_forward_or_not = 1'b1;
                 end
                 `LW:begin
                     status_out = 3'b011;
                     Load_or_not = 1'b1;
                     mem_address_out = rs1_value_in + imm_in;
                     reg_address_out = rd_address_in;
+                    ex_forward_or_not = 1'b1;
                 end
                 `LBU:begin
                     status_out = 3'b011;
                     Load_or_not = 1'b1;
                     mem_address_out = rs1_value_in + imm_in;
                     reg_address_out = rd_address_in;
+                    ex_forward_or_not = 1'b1;
                 end
                 `LHU:begin
                     status_out = 3'b011;
                     Load_or_not = 1'b1;
                     mem_address_out = rs1_value_in + imm_in;
                     reg_address_out = rd_address_in;
+                    ex_forward_or_not = 1'b1;
                 end
                 `SB:begin
                     status_out = 3'b010;
@@ -131,6 +136,7 @@ module EX (
                 `XORI:begin
                     target_data_out = rs1_value_in + imm_in;
                     reg_address_out = rd_address_in;
+                    ex_forward_or_not = 1'b1;//咋没了？？
                 end
                 `OR:begin
                     target_data_out = rs1_value_in | rs2_value_in;
@@ -238,6 +244,7 @@ module EX (
                     reg_address_out = rd_address_in;
                     jump_or_not = 1'b1;
                     pc_jump_out = branch_address_in + branch_offset_in;
+                    ex_forward_or_not = 1'b1;
                 end
                 `JALR:begin
                     status_out = 3'b101;
@@ -245,6 +252,7 @@ module EX (
                     reg_address_out = rd_address_in;
                     jump_or_not = 1'b1;
                     pc_jump_out = branch_address_in + branch_offset_in;
+                    ex_forward_or_not = 1'b1;
                 end
             endcase
         end

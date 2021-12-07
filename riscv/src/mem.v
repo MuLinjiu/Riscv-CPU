@@ -42,6 +42,12 @@ always @(*) begin
         rd_address_out = reg_address_in;
         mc_width_out = 0;  
         mem_stall_out = 1'b0;//忘了 , 焯！
+        if(status_in != 3'b000 && status_in != 3'b010 && status_in != 3'b100)begin
+            if_operate_reg_out = 1'b1;
+        end 
+        else begin
+            if_operate_reg_out = 1'b0;
+        end
     if(rst == `rst_enable)begin
         mc_mem_enable_out = 1'b0;
         mc_target_data_out = `zeroword;
@@ -53,12 +59,7 @@ always @(*) begin
         // if(status_in == 3'b010)begin
         //     if_operate_reg_out = 1'b1;
         // end
-        if(status_in != 3'b000 && status_in != 3'b010 && status_in != 3'b100)begin
-            if_operate_reg_out = 1'b1;
-        end 
-        else begin
-            if_operate_reg_out = 1'b0;
-        end
+        
         if(mc_enable_in)begin
             if(op_in == `LW)begin
                 rd_value_out = mc_mem_data_in;

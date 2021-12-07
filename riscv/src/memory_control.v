@@ -32,7 +32,9 @@ module memory_control (
     //to RAM
     output wire[7:0] ram_data_out,
     output wire[31:0] ram_address_out,
-    output wire ram_wr//1 for write,0 for read
+    output wire ram_wr,//1 for write,0 for read
+
+    input wire hci_if_full
 );
 
 wire[`InstAddrBus] address;
@@ -42,6 +44,7 @@ wire[7:0] sdata[3:0];
 
 reg[2:0] status;
 wire[2:0] number;
+reg[1:0] hci_status;
 
 assign sdata[0] = mem_target_data_in[7:0];
 assign sdata[1] = mem_target_data_in[15:8];
@@ -63,6 +66,7 @@ assign ram_wr = mem_enable_in == 1'b1 ? (status == number ? 1'b0 : mem_read_or_w
 
 always @(posedge clk_in) begin
     if(rst_in == `rst_enable || (jump_or_not_in && !mem_enable_in))begin
+        hci_status <= 2'b11;
         status <= 0;
         inst_busy_out <= 1'b0;
         mem_busy_out <= 1'b0;
@@ -97,17 +101,39 @@ always @(posedge clk_in) begin
             end
         end
     end else if(number && ram_wr)begin
-        if(status == 0)begin
-            inst_busy_out <= 1'b1;
-            inst_enable_out <= 1'b0;
-            mem_busy_out <= 1'b0;
-            mem_enable_out <= 1'b0;
-        end 
-        if(status == number - 1)begin//没有else 是因为number = 1，status = 0
-            mem_enable_out <= 1'b1;
-            status <= 0;
+        if(mem_address_in[17:16] != 2'b11)begin
+            if(status == 0)begin
+                inst_busy_out <= 1'b1;
+                inst_enable_out <= 1'b0;
+                mem_busy_out <= 1'b0;
+                mem_enable_out <= 1'b0;
+            end 
+            if(status == number - 1)begin//没有else 是因为number = 1，status = 0
+                mem_enable_out <= 1'b1;
+                status <= 0;
+            end else begin
+                status <= status + 1;
+            end
         end else begin
-            status <= status + 1;
+            if(hci_status != 2'b00)begin
+                hci_status <= hci_status - 1;
+            end else begin
+                if(hci_if_full == 1'b0)begin
+                    if(status == 0)begin
+                        inst_busy_out <= 1'b1;
+                        inst_enable_out <= 1'b0;
+                        mem_busy_out <= 1'b0;
+                        mem_enable_out <= 1'b0;
+                    end 
+                    if(status == number - 1)begin//没有else 是因为number = 1，status = 0
+                        mem_enable_out <= 1'b1;
+                        status <= 0;
+                    end else begin
+                        status <= status + 1;
+                    end
+                    hci_status <= 2'b11;
+                end
+            end
         end
     end else begin
         mem_busy_out <= 1'b0;
