@@ -11,7 +11,7 @@ int main()
             a[i][j] = 0;
 
 
-    outlln(1);
+    //outlln(1);
     int quotient;
     int remainder;
     for (i = 0;i < 100;i++){
@@ -27,7 +27,7 @@ int main()
     	}
         outlln(i);
     }
-        outlln(2);
+        //outlln(2);
     for (i = 0;i < 100;i++){
         for (j = 0;j < 100;j++)
             {

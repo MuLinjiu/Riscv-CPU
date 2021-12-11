@@ -6,7 +6,7 @@ float f(float x, float y, float z) {
 }
 
 float h(float x, float z) {
-    for (float y = 1.0f; y >= 0.0f; y -= 0.001f)
+    for (float y = 1.0f; y >= 0.0f; y -= 0.1f)
         if (f(x, y, z) <= 0.0f)
             return y;
     return 0.0f;
@@ -23,8 +23,9 @@ float mysqrt(float x) {
 }
 
 int main() {
-    for (float z = 1.5f; z > -1.5f; z -= 0.05f) {
-        for (float x = -1.5f; x < 1.5f; x += 0.025f) {
+    for (float z = 1.5f; z > -1.5f; z -= 0.05f) {//60  7,32   z = 1.2 , x = -0.725
+        for (float x = -1.5f; x < 1.5f; x += 0.025f) {//120
+            //putchar('\n');
             float v = f(x, 0.0f, z);
             if (v <= 0.0f) {
                 float y0 = h(x, z);

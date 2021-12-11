@@ -58,7 +58,7 @@ assign address = mem_enable_in == 1'b1 ? mem_address_in : inst_address_in;
 // RAM
 
 assign ram_data_out = status == 3'b100 ? `zeroword : sdata[status];
-assign ram_address_out = address + status;
+assign ram_address_out = address + status;      
 assign ram_wr = mem_enable_in == 1'b1 ? (status == number ? 1'b0 : mem_read_or_write_in ) : 1'b0;
 
 
@@ -87,7 +87,6 @@ always @(posedge clk_in) begin
             ldata[status - 1] <= ram_data_in;
             status <= status + 1;
         end else begin
-            status <= 0;
             if(mem_enable_in == 1'b1)begin
                 mem_enable_out <= 1'b1;
                 case(mem_width_in)
@@ -96,9 +95,10 @@ always @(posedge clk_in) begin
                 3'b100:mem_rdata_out <= {ram_data_in,ldata[2],ldata[1],ldata[0]};
                 endcase
             end else begin
-                inst_enable_out <= 1'b1;
                 inst_data_out <= {ram_data_in,ldata[2],ldata[1],ldata[0]};
+                inst_enable_out <= 1'b1;
             end
+            status <= 0;
         end
     end else if(number && ram_wr)begin
         if(mem_address_in[17:16] != 2'b11)begin

@@ -28,6 +28,12 @@ module EX (
     output reg[`InstAddrBus] pc_jump_out
 );
     
+integer fp;
+initial begin
+    fp = $fopen("test.out");
+end
+
+
     always @(*) begin
         if(rst == `rst_enable)begin
             ex_forward_or_not = 1'b0;
@@ -41,7 +47,7 @@ module EX (
             Load_or_not = 1'b0;
             op_out = 6'b000000;
         end else begin
-            
+            $fdisplay(fp, "%h", pc_in);
             status_out = 3'b001;//先所有的都操作寄存器
             ex_forward_or_not = 1'b0;
             //width_out = 3'b000;
@@ -134,7 +140,7 @@ module EX (
                     ex_forward_or_not = 1'b1;
                 end
                 `XORI:begin
-                    target_data_out = rs1_value_in + imm_in;
+                    target_data_out = rs1_value_in ^ imm_in;
                     reg_address_out = rd_address_in;
                     ex_forward_or_not = 1'b1;//咋没了？？
                 end

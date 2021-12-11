@@ -269,7 +269,7 @@ end
             id_stall_out1 = 1'b1;//structure hazard
         end else if(rs1_read_out == 1'b1 && ex_forward_or_not == 1'b1 && rs1_addr_out == ex_forward_address &&  rs1_addr_out != 5'b00000)begin
             rs1_value_out = ex_forward_value;
-        end else if(rs1_read_out == 1'b1 && MEM_forward_or_not == 1'b1 && rs1_addr_out == MEM_forward_address)begin
+        end else if(rs1_read_out == 1'b1 && MEM_forward_or_not == 1'b1 && rs1_addr_out == MEM_forward_address && rs1_addr_out != 5'b00000)begin
             rs1_value_out = MEM_forward_value;
         end else if(rs1_read_out == 1'b1) begin
             rs1_value_out = rs1_value_in;
@@ -286,7 +286,7 @@ always @(*) begin
             id_stall_out2 = 1'b1;//structure hazard
         end else if(rs2_read_out == 1'b1 && ex_forward_or_not == 1'b1 && rs2_addr_out == ex_forward_address &&  rs2_addr_out != 5'b00000)begin
             rs2_value_out = ex_forward_value;
-        end else if(rs2_read_out == 1'b1 && MEM_forward_or_not == 1'b1 && rs2_addr_out == MEM_forward_address)begin
+        end else if(rs2_read_out == 1'b1 && MEM_forward_or_not == 1'b1 && rs2_addr_out == MEM_forward_address && rs2_addr_out != 5'b00000)begin
             rs2_value_out = MEM_forward_value;
         end else if(rs2_read_out == 1'b1) begin
             rs2_value_out = rs2_value_in;

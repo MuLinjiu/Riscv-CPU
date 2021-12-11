@@ -22,7 +22,7 @@ module IF (
 //to_stall_control
     output wire stall_or_not
 );
-
+assign stall_or_not = pc_enable_in && !mc_inst_enable_in;//pc传进来mc未处理完
 always @(*) begin
 
     //处理to icache部分以及pc
@@ -43,6 +43,6 @@ always @(*) begin
     end
 end
 
-assign stall_or_not = pc_enable_in && !mc_inst_enable_in;//pc传进来mc未处理完
+
     
 endmodule
