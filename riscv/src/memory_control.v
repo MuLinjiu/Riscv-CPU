@@ -52,6 +52,23 @@ assign sdata[2] = mem_target_data_in[23:16];
 assign sdata[3] = mem_target_data_in[31:24];
 
 
+
+
+reg[31:0] dcache_data[`icachenum - 1 : 0];
+reg[`icachetagbus] dcache_tag[`icachenum - 1 : 0];
+reg[`icachenum - 1 : 0] dcache_valid;
+
+integer i;
+
+initial begin
+    for(i = 0 ; i < `icachenum ; i = i + 1)begin
+        dcache_valid[i] <= 0;
+        end
+end
+
+
+
+
 assign number = mem_enable_in == 1'b1 ? mem_width_in : (inst_enable_in == 1'b1 ? 4 : 0);
 assign address = mem_enable_in == 1'b1 ? mem_address_in : inst_address_in;
 
@@ -76,7 +93,11 @@ always @(posedge clk_in) begin
         ldata[1] <= 0;
         ldata[2] <= 0;
         ldata[3] <= 0;
-    end else if(number && !ram_wr)begin
+    end else if(number && !ram_wr)begin//read
+
+        if(dcache_tag[mem_address_in[`icachebus]] == mem_address_in[`tagbytes] && dcache_valid[mem_address_in[`icachebus]])begin
+            inst_data_out <= dcache_data[mem_address_in[`icachebus]];
+        end
         if(status == 0)begin
             mem_enable_out <= 1'b0;
             inst_enable_out <= 1'b0;
@@ -100,8 +121,11 @@ always @(posedge clk_in) begin
             end
             status <= 0;
         end
-    end else if(number && ram_wr)begin
+    end else if(number && ram_wr)begin//write
         if(mem_address_in[17:16] != 2'b11)begin
+            dcache_valid[mem_address_in[`icachebus]] <= 1'b1;
+            dcache_tag[mem_address_in[`icachebus]] <= mem_address_in[`tagbytes];
+            dcache_data[mem_address_in[`icachebus]] <= mem_target_data_in;
             if(status == 0)begin
                 inst_busy_out <= 1'b1;
                 inst_enable_out <= 1'b0;
